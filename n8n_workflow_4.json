@@ -1,0 +1,321 @@
+{
+  "name": "JIL PACK - Relance Devis en Attente",
+  "nodes": [
+    {
+      "id": "938dbaba-20d5-4716-9dd0-0d5c73232fd7",
+      "name": "Schedule (quotidien 9h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        300
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "minutesInterval": 1440
+            }
+          ]
+        },
+        "activation": {
+          "hour": 9,
+          "minute": 0
+        }
+      }
+    },
+    {
+      "id": "2ea7d2e1-1491-45df-8912-9e9e7573a12c",
+      "name": "Chercher devis envoyes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        300
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://essorjnuwhqxvyunizzo.supabase.co/rest/v1/quotes",
+        "authentication": "none",
+        "options": {
+          "headers": {
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzc29yam51d2hxeHZ5dW5penpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjgxMDczOSwiZXhwIjoyMDk4Mzg2NzM5fQ.9b_BNzaqUVYoBnYhn-yBjxrhWfSOwWhX-GEoLB7SUbY",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzc29yam51d2hxeHZ5dW5penpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjgxMDczOSwiZXhwIjoyMDk4Mzg2NzM5fQ.9b_BNzaqUVYoBnYhn-yBjxrhWfSOwWhX-GEoLB7SUbY",
+            "Prefer": "return=representation"
+          }
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "=eq.envoye"
+            },
+            {
+              "name": "select",
+              "value": "id,quote_number,client_id,client_name,total_ht,total_ttc,created_at"
+            },
+            {
+              "name": "order",
+              "value": "created_at.asc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5d60a32a-f239-4825-9de5-a1cf5f75cdf3",
+      "name": "Devis en attente ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        560,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "0",
+              "leftValue": "={{ $json.length }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "number",
+                "version": 1
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "98a61288-ede2-4cb9-9d8c-6e261eb04d30",
+      "name": "Filtrer > 7 jours",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        200
+      ],
+      "parameters": {
+        "jsCode": "const quotes = $input.all();\nconst now = $now;\nconst results = [];\nfor (const q of quotes) {\n  const created = $moment(q.json.created_at);\n  const daysSince = now.diff(created, 'days');\n  if (daysSince >= 7) {\n    results.push({ json: { ...q.json, days_pending: daysSince, relance_number: Math.floor(daysSince / 7) } });\n  }\n}\nreturn results.length > 0 ? results : [{ json: { empty: true } }];"
+      }
+    },
+    {
+      "id": "35e678d4-7541-4d4a-89b9-308a9554cf50",
+      "name": "Relance necessaire ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {},
+          "conditions": [
+            {
+              "id": "0",
+              "leftValue": "={{ $json.empty }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "version": 1
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a63b06fe-32d7-4f43-81da-dbf038139c7c",
+      "name": "Pour chaque devis",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        100
+      ],
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      }
+    },
+    {
+      "id": "1702148b-1279-40df-84fd-8e189ec32488",
+      "name": "Notifier relance",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://ctofjilpack.app.n8n.cloud/webhook/jilpack-machmouch",
+        "authentication": "none",
+        "options": {
+          "headers": {
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzc29yam51d2hxeHZ5dW5penpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjgxMDczOSwiZXhwIjoyMDk4Mzg2NzM5fQ.9b_BNzaqUVYoBnYhn-yBjxrhWfSOwWhX-GEoLB7SUbY",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzc29yam51d2hxeHZ5dW5penpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjgxMDczOSwiZXhwIjoyMDk4Mzg2NzM5fQ.9b_BNzaqUVYoBnYhn-yBjxrhWfSOwWhX-GEoLB7SUbY",
+            "Prefer": "return=representation"
+          }
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "relance_devis"
+            },
+            {
+              "name": "quote_number",
+              "value": "={{ $json.quote_number }}"
+            },
+            {
+              "name": "client_name",
+              "value": "={{ $json.client_name }}"
+            },
+            {
+              "name": "total_ttc",
+              "value": "={{ $json.total_ttc }}"
+            },
+            {
+              "name": "days_pending",
+              "value": "={{ $json.days_pending }}"
+            },
+            {
+              "name": "relance_number",
+              "value": "={{ $json.relance_number }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ 'Relance #' + ($json.relance_number || 1) + ' - Devis ' + $json.quote_number + ' - ' + $json.client_name + ' : ' + $json.total_ttc + ' MAD - Attente ' + $json.days_pending + ' jours' }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "11137e4b-57f5-4cf9-8177-6d76e3da4713",
+      "name": "Fin",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        100
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "acf80d63-f17b-4495-8c77-3016a12d17aa",
+      "name": "Aucun devis",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        350
+      ],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Schedule (quotidien 9h)": {
+      "main": [
+        [
+          {
+            "node": "Chercher devis envoyes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chercher devis envoyes": {
+      "main": [
+        [
+          {
+            "node": "Devis en attente ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Devis en attente ?": {
+      "main": [
+        [
+          {
+            "node": "Filtrer > 7 jours",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aucun devis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtrer > 7 jours": {
+      "main": [
+        [
+          {
+            "node": "Relance necessaire ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Relance necessaire ?": {
+      "main": [
+        [
+          {
+            "node": "Pour chaque devis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aucun devis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pour chaque devis": {
+      "main": [
+        [
+          {
+            "node": "Notifier relance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notifier relance": {
+      "main": [
+        [
+          {
+            "node": "Fin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "pinData": {},
+  "versionId": "1",
+  "active": false
+}

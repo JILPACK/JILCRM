@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_bpmn_process_tree_view" model="ir.ui.view">
+        <field name="name">jil.bpmn.process.tree</field>
+        <field name="model">jil.bpmn.process</field>
+        <field name="arch" type="xml">
+            <list string="BPMN Processes" multi_edit="1">
+                <field name="name"/>
+                <field name="state" widget="badge" decoration-success="state == 'validated'" decoration-info="state == 'draft'"/>
+                <field name="pool_count" string="Pools"/>
+                <field name="element_count" string="Elements"/>
+                <field name="flow_count" string="Flows"/>
+                <field name="sequence"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_bpmn_process_form_view" model="ir.ui.view">
+        <field name="name">jil.bpmn.process.form</field>
+        <field name="model">jil.bpmn.process</field>
+        <field name="arch" type="xml">
+            <form string="BPMN Process">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="pool_count"/>
+                            <field name="element_count"/>
+                            <field name="flow_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Process description..."/>
+                    </group>
+                    <notebook>
+                        <page name="pools" string="Pools &amp; Elements">
+                            <field name="pool_ids">
+                                <list string="Pools / Lanes" editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="color"/>
+                                    <field name="icon"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="elements" string="All Elements">
+                            <field name="element_ids">
+                                <list string="Elements" editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="element_type" widget="badge"/>
+                                    <field name="pool_id"/>
+                                    <field name="icon"/>
+                                    <field name="label"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="flows" string="Flows">
+                            <field name="flow_ids">
+                                <list string="Flows" editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="from_element_id"/>
+                                    <field name="to_element_id"/>
+                                    <field name="flow_type" widget="badge"/>
+                                    <field name="label"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="notes" string="Notes">
+                            <field name="note_ids">
+                                <list string="Notes" editable="bottom">
+                                    <field name="sequence"/>
+                                    <field name="name"/>
+                                    <field name="content"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="source" string="BPMN Source">
+                            <field name="bpmn_source" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_bpmn_process_search_view" model="ir.ui.view">
+        <field name="name">jil.bpmn.process.search</field>
+        <field name="model">jil.bpmn.process</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="validated" string="Validated" domain="[('state','=','validated')]"/>
+                <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                <separator/>
+                <filter name="all" string="All" domain="[]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_jil_bpmn_process" model="ir.actions.act_window">
+        <field name="name">BPMN Processes</field>
+        <field name="res_model">jil.bpmn.process</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="jil_bpmn_process_search_view"/>
+        <field name="help" type="html">
+            <p>Manage your BPMN business process definitions here.</p>
+            <p>Define pools, lanes, elements, and flows to document your business processes.</p>
+        </field>
+    </record>
+</odoo>

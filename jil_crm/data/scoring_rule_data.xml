@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="jil_scoring_rule_email" model="jil.lead.scoring.rule">
+            <field name="name">Has Email</field>
+            <field name="sequence">10</field>
+            <field name="score_value">5</field>
+            <field name="rule_type">field_value</field>
+            <field name="field_name">email_from</field>
+            <field name="operator">!=</field>
+            <field name="field_value">False</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_scoring_rule_phone" model="jil.lead.scoring.rule">
+            <field name="name">Has Phone</field>
+            <field name="sequence">20</field>
+            <field name="score_value">5</field>
+            <field name="rule_type">field_value</field>
+            <field name="field_name">phone</field>
+            <field name="operator">!=</field>
+            <field name="field_value">False</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_scoring_rule_partner" model="jil.lead.scoring.rule">
+            <field name="name">Has Partner</field>
+            <field name="sequence">30</field>
+            <field name="score_value">10</field>
+            <field name="rule_type">field_value</field>
+            <field name="field_name">partner_id</field>
+            <field name="operator">!=</field>
+            <field name="field_value">False</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_scoring_rule_high_revenue" model="jil.lead.scoring.rule">
+            <field name="name">High Revenue (&gt;50k)</field>
+            <field name="sequence">40</field>
+            <field name="score_value">20</field>
+            <field name="rule_type">revenue_range</field>
+            <field name="min_revenue">50000</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_scoring_rule_medium_revenue" model="jil.lead.scoring.rule">
+            <field name="name">Medium Revenue (10k-50k)</field>
+            <field name="sequence">50</field>
+            <field name="score_value">10</field>
+            <field name="rule_type">revenue_range</field>
+            <field name="min_revenue">10000</field>
+            <field name="max_revenue">50000</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_scoring_rule_high_priority" model="jil.lead.scoring.rule">
+            <field name="name">High Priority</field>
+            <field name="sequence">60</field>
+            <field name="score_value">15</field>
+            <field name="rule_type">field_value</field>
+            <field name="field_name">priority</field>
+            <field name="operator">>=</field>
+            <field name="field_value">2</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_crm_lost_reason_wizard_view" model="ir.ui.view">
+        <field name="name">jil.crm.lost.reason.wizard.form</field>
+        <field name="model">jil.crm.lost.reason.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="lead_id" invisible="1"/>
+                    <field name="lost_reason" placeholder="Explain why this lead was lost..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm Lost" type="object" class="btn-danger"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

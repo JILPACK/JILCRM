@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_notification_trigger_list_view" model="ir.ui.view">
+        <field name="name">jil.notification.trigger.list</field>
+        <field name="model">jil.notification.trigger</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model"/>
+                <field name="trigger_on"/>
+                <field name="notification_type"/>
+                <field name="active"/>
+                <field name="trigger_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_notification_trigger_form_view" model="ir.ui.view">
+        <field name="name">jil.notification.trigger.form</field>
+        <field name="model">jil.notification.trigger</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="model"/>
+                        <field name="trigger_on"/>
+                        <field name="field_name" invisible="trigger_on == 'create'"/>
+                        <field name="operator" invisible="trigger_on == 'create'"/>
+                        <field name="value" invisible="trigger_on == 'create'"/>
+                    </group>
+                    <group string="Notification">
+                        <field name="notification_type"/>
+                        <field name="title"/>
+                        <field name="message"/>
+                        <field name="notify_user"/>
+                        <field name="notify_role"/>
+                        <field name="email_template_id" invisible="notification_type == 'in_app'"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_notification_trigger_action" model="ir.actions.act_window">
+        <field name="name">Notification Triggers</field>
+        <field name="res_model">jil.notification.trigger</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

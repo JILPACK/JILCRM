@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="jil_chatbot_intent_greeting" model="jil.chatbot.intent">
+            <field name="name">greeting</field>
+            <field name="category">greeting</field>
+            <field name="description">Basic greeting intent</field>
+            <field name="confidence_threshold">0.5</field>
+            <field name="training_phrases">hello
+hi
+hey
+good morning
+good afternoon
+good evening
+greetings
+howdy
+what's up
+yo
+sup</field>
+            <field name="response_template">Hello! Welcome to JIL Pack CRM. How can I help you today?</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_chatbot_intent_booking" model="jil.chatbot.intent">
+            <field name="name">book_consultation</field>
+            <field name="category">booking</field>
+            <field name="description">Book a consultation intent</field>
+            <field name="confidence_threshold">0.6</field>
+            <field name="training_phrases">book a consultation
+schedule a meeting
+make an appointment
+I want to book
+book a call
+schedule a demo
+arrange a meeting
+set up a consultation
+I need a consultation
+book an appointment</field>
+            <field name="response_template">I'd be happy to schedule a consultation for you! Let me check available slots.</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_chatbot_intent_pricing" model="jil.chatbot.intent">
+            <field name="name">pricing</field>
+            <field name="category">pricing</field>
+            <field name="description">Pricing inquiry intent</field>
+            <field name="confidence_threshold">0.6</field>
+            <field name="training_phrases">how much
+pricing
+price
+cost
+what is the price
+price list
+rates
+quote
+get a quote
+pricing information</field>
+            <field name="response_template">I can help you with pricing information. Could you please provide some details about what you're looking for?</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_chatbot_intent_support" model="jil.chatbot.intent">
+            <field name="name">support</field>
+            <field name="category">support</field>
+            <field name="description">Support request intent</field>
+            <field name="confidence_threshold">0.6</field>
+            <field name="training_phrases">I need help
+support
+help
+I have a problem
+issue
+not working
+broken
+need assistance
+I need support
+help me</field>
+            <field name="response_template">I'm sorry you're having trouble. Let me connect you with our support team.</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_chatbot_intent_farewell" model="jil.chatbot.intent">
+            <field name="name">farewell</field>
+            <field name="category">farewell</field>
+            <field name="description">Farewell intent</field>
+            <field name="confidence_threshold">0.5</field>
+            <field name="training_phrases">bye
+goodbye
+see you
+talk to you later
+see ya
+later
+bye bye
+have a good day
+take care
+good night</field>
+            <field name="response_template">Thank you for chatting with us! Have a great day!</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="jil_chatbot_intent_fallback" model="jil.chatbot.intent">
+            <field name="name">fallback</field>
+            <field name="category">fallback</field>
+            <field name="description">Fallback when no intent matched</field>
+            <field name="confidence_threshold">0.0</field>
+            <field name="training_phrases">fallback</field>
+            <field name="response_template">I'm not sure I understood that. Could you please rephrase? You can ask about our services, book a consultation, or request support.</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

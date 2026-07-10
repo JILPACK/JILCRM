@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="jil_crm_menu_root" name="JIL CRM" sequence="10" web_icon="jil_crm,static/description/icon.png"/>
+
+    <!-- ===== CRM ===== -->
+    <menuitem id="jil_crm_menu_crm" name="CRM" parent="jil_crm_menu_root" sequence="10"/>
+
+    <menuitem id="jil_crm_menu_leads" name="Leads" parent="jil_crm_menu_crm" sequence="10" action="jil_crm_lead_action"/>
+    <menuitem id="jil_crm_menu_opportunities" name="Opportunities" parent="jil_crm_menu_crm" sequence="20" action="jil_crm_opportunity_action"/>
+    <menuitem id="jil_crm_menu_pipeline" name="Pipeline" parent="jil_crm_menu_crm" sequence="30" action="jil_crm_pipeline_action"/>
+
+    <!-- Lead Management Submenu -->
+    <menuitem id="jil_crm_menu_lead_management" name="Lead Management" parent="jil_crm_menu_crm" sequence="35"/>
+    <menuitem id="jil_crm_menu_capture_forms" name="Capture Forms" parent="jil_crm_menu_lead_management" sequence="10" action="jil_lead_capture_form_action"/>
+    <menuitem id="jil_crm_menu_scoring_rules" name="Scoring Rules" parent="jil_crm_menu_lead_management" sequence="20" action="jil_lead_scoring_rule_action"/>
+    <menuitem id="jil_crm_menu_assignment_rules" name="Assignment Rules" parent="jil_crm_menu_lead_management" sequence="30" action="jil_lead_assignment_rule_action"/>
+    <menuitem id="jil_crm_menu_nurturing" name="Nurturing Campaigns" parent="jil_crm_menu_lead_management" sequence="40" action="jil_nurturing_campaign_action"/>
+
+    <!-- ===== AI Chatbot ===== -->
+    <menuitem id="jil_crm_menu_chatbot" name="AI Chatbot" parent="jil_crm_menu_root" sequence="15"/>
+    <menuitem id="jil_crm_menu_chatbot_sessions" name="Chat Sessions" parent="jil_crm_menu_chatbot" sequence="10" action="jil_chatbot_session_action"/>
+    <menuitem id="jil_crm_menu_chatbot_flows" name="Conversation Flows" parent="jil_crm_menu_chatbot" sequence="20" action="jil_chatbot_flow_action"/>
+    <menuitem id="jil_crm_menu_chatbot_intents" name="Intents" parent="jil_crm_menu_chatbot" sequence="30" action="jil_chatbot_intent_action"/>
+
+    <!-- ===== Consultation Booking ===== -->
+    <menuitem id="jil_crm_menu_booking" name="Bookings" parent="jil_crm_menu_root" sequence="18"/>
+    <menuitem id="jil_crm_menu_consultations" name="Consultations" parent="jil_crm_menu_booking" sequence="10" action="jil_consultation_booking_action"/>
+    <menuitem id="jil_crm_menu_availability" name="Availability" parent="jil_crm_menu_booking" sequence="20" action="jil_consultant_availability_action"/>
+
+    <!-- ===== Sales ===== -->
+    <menuitem id="jil_crm_menu_sales" name="Sales" parent="jil_crm_menu_root" sequence="20"/>
+    <menuitem id="jil_crm_menu_deals" name="Deals" parent="jil_crm_menu_sales" sequence="10"/>
+    <menuitem id="jil_crm_menu_sales_forecast" name="Sales Forecast" parent="jil_crm_menu_sales" sequence="20"/>
+
+    <!-- ===== Projects ===== -->
+    <menuitem id="jil_crm_menu_projects" name="Projects" parent="jil_crm_menu_root" sequence="25"/>
+    <menuitem id="jil_crm_menu_project_list" name="All Projects" parent="jil_crm_menu_projects" sequence="10" action="jil_project_tracking_action"/>
+    <menuitem id="jil_crm_menu_project_tasks" name="Tasks" parent="jil_crm_menu_projects" sequence="20" action="jil_project_task_action"/>
+    <menuitem id="jil_crm_menu_project_milestones" name="Milestones" parent="jil_crm_menu_projects" sequence="30" action="jil_project_milestone_action"/>
+
+    <!-- ===== After Sales / SAV ===== -->
+    <menuitem id="jil_crm_menu_sav" name="After Sales" parent="jil_crm_menu_root" sequence="30"/>
+    <menuitem id="jil_crm_menu_claims" name="Reclamations" parent="jil_crm_menu_sav" sequence="10" action="jil_claim_action"/>
+    <menuitem id="jil_crm_menu_support" name="Support Tickets" parent="jil_crm_menu_sav" sequence="20" action="jil_support_ticket_action"/>
+
+    <!-- ===== Logistics ===== -->
+    <menuitem id="jil_crm_menu_logistics" name="Logistics" parent="jil_crm_menu_root" sequence="40"/>
+    <menuitem id="jil_crm_menu_transports" name="Transports" parent="jil_crm_menu_logistics" sequence="10" action="jil_transport_action"/>
+
+    <!-- ===== Finance ===== -->
+    <menuitem id="jil_crm_menu_finance" name="Finance" parent="jil_crm_menu_root" sequence="45"/>
+    <menuitem id="jil_crm_menu_recoveries" name="Recoveries" parent="jil_crm_menu_finance" sequence="10" action="jil_recovery_action"/>
+
+    <!-- ===== Workflow Automation ===== -->
+    <menuitem id="jil_crm_menu_automation" name="Automation" parent="jil_crm_menu_root" sequence="50"/>
+    <menuitem id="jil_crm_menu_workflow_rules" name="Workflow Rules" parent="jil_crm_menu_automation" sequence="10" action="jil_workflow_automation_action"/>
+    <menuitem id="jil_crm_menu_email_sequences" name="Email Sequences" parent="jil_crm_menu_automation" sequence="20" action="jil_email_sequence_action"/>
+    <menuitem id="jil_crm_menu_notifications" name="Notification Triggers" parent="jil_crm_menu_automation" sequence="30" action="jil_notification_trigger_action"/>
+
+    <!-- ===== BPMN ===== -->
+    <menuitem id="jil_crm_menu_bpmn" name="Processes (BPMN)" parent="jil_crm_menu_root" sequence="60"/>
+    <menuitem id="jil_crm_menu_bpmn_processes" name="BPMN Processes" parent="jil_crm_menu_bpmn" sequence="10" action="action_jil_bpmn_process"/>
+
+    <!-- ===== Analytics & Dashboards ===== -->
+    <menuitem id="jil_crm_menu_analytics" name="Analytics" parent="jil_crm_menu_root" sequence="70"/>
+    <menuitem id="jil_crm_menu_dashboards" name="Dashboards" parent="jil_crm_menu_analytics" sequence="10" action="jil_crm_dashboard_action"/>
+    <menuitem id="jil_crm_menu_kpis" name="KPI Definitions" parent="jil_crm_menu_analytics" sequence="20" action="jil_crm_kpi_action"/>
+    <menuitem id="jil_crm_menu_report_analysis" name="Analysis Reports" parent="jil_crm_menu_analytics" sequence="30" action="jil_crm_lead_action" groups="sales_team.group_sale_manager"/>
+
+    <!-- ===== Unified Context MCP ===== -->
+    <menuitem id="jil_crm_menu_context" name="Context MCP" parent="jil_crm_menu_root" sequence="80"/>
+    <menuitem id="jil_crm_menu_context_list" name="Unified Contexts" parent="jil_crm_menu_context" sequence="10" action="jil_mcp_context_action"/>
+    <menuitem id="jil_crm_menu_governance" name="Governance Rules" parent="jil_crm_menu_context" sequence="20" action="jil_mcp_governance_action"/>
+    <menuitem id="jil_crm_menu_audit_log" name="Audit Log" parent="jil_crm_menu_context" sequence="30" action="jil_mcp_audit_log_action"/>
+
+    <!-- ===== Configuration ===== -->
+    <menuitem id="jil_crm_menu_config" name="Configuration" parent="jil_crm_menu_root" sequence="90"/>
+    <menuitem id="jil_crm_menu_stages" name="Stages" parent="jil_crm_menu_config" sequence="10" action="jil_crm_stage_action"/>
+
+    <!-- Quick Create -->
+    <menuitem id="jil_crm_menu_new_lead" name="New Lead" parent="jil_crm_menu_crm" sequence="99" action="jil_crm_lead_action" groups="sales_team.group_sale_salesman"/>
+
+    <!-- ===== Contacts (Customers / Suppliers) ===== -->
+    <!-- Tree (list) action -->
+    <record id="jil_crm_partner_list_action" model="ir.actions.act_window">
+        <field name="name">Contacts</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">['|', ('customer_rank', '>', 0), ('supplier_rank', '>', 0)]</field>
+        <field name="context">{'default_customer_rank': 1}</field>
+        <field name="help" type="html">
+            <p>View your Customers and Suppliers imported from Sage 100.</p>
+        </field>
+    </record>
+
+    <!-- Customers filter action -->
+    <record id="jil_crm_customer_action" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('customer_rank', '>', 0)]</field>
+        <field name="context">{'default_customer_rank': 1}</field>
+    </record>
+
+    <!-- Suppliers filter action -->
+    <record id="jil_crm_supplier_action" model="ir.actions.act_window">
+        <field name="name">Suppliers</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('supplier_rank', '>', 0)]</field>
+        <field name="context">{'default_supplier_rank': 1}</field>
+    </record>
+
+    <menuitem id="jil_crm_menu_contacts" name="Contacts" parent="jil_crm_menu_crm" sequence="12"/>
+    <menuitem id="jil_crm_menu_customers" name="Customers" parent="jil_crm_menu_contacts" sequence="10" action="jil_crm_customer_action"/>
+    <menuitem id="jil_crm_menu_suppliers" name="Suppliers" parent="jil_crm_menu_contacts" sequence="20" action="jil_crm_supplier_action"/>
+    <menuitem id="jil_crm_menu_all_contacts" name="All Contacts" parent="jil_crm_menu_contacts" sequence="30" action="jil_crm_partner_list_action"/>
+</odoo>

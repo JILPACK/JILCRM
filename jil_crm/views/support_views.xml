@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_support_ticket_list_view" model="ir.ui.view">
+        <field name="name">jil.support.ticket.list</field>
+        <field name="model">jil.support.ticket</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="priority == 'urgent'" decoration-warning="priority == 'high'" decoration-success="status == 'resolu'" decoration-muted="status == 'ferme'">
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="client_id"/>
+                <field name="priority" widget="priority"/>
+                <field name="status" widget="badge"/>
+                <field name="assigned_to"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_support_ticket_form_view" model="ir.ui.view">
+        <field name="name">jil.support.ticket.form</field>
+        <field name="model">jil.support.ticket</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Support Ticket">
+                <header>
+                    <field name="status" widget="statusbar" clickable="True"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="subject"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="assigned_to"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <separator string="Description"/>
+                    <field name="description" nolabel="1"/>
+                    <field name="notes" placeholder="Internal notes..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_support_ticket_search_view" model="ir.ui.view">
+        <field name="name">jil.support.ticket.search</field>
+        <field name="model">jil.support.ticket</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="subject"/>
+                <field name="client_id"/>
+                <field name="description"/>
+                <filter name="filter_open" string="Open" domain="[('status', 'not in', ('resolu', 'ferme'))]"/>
+                <filter name="filter_urgent" string="Urgent" domain="[('priority', '=', 'urgent')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_priority" string="Priority" context="{'group_by': 'priority'}"/>
+                    <filter name="group_assigned" string="Assigned to" context="{'group_by': 'assigned_to'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="jil_support_ticket_action" model="ir.actions.act_window">
+        <field name="name">Support Tickets</field>
+        <field name="res_model">jil.support.ticket</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="jil_support_ticket_search_view"/>
+    </record>
+</odoo>

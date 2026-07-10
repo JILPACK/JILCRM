@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="jil_crm_lead_demo_1" model="jil.crm.lead">
+            <field name="name">Demande de devis emballage carton</field>
+            <field name="partner_name">ABC Industries</field>
+            <field name="email_from">contact@abcindustries.com</field>
+            <field name="phone">+212 5 22 12 34 56</field>
+            <field name="type">lead</field>
+            <field name="priority">2</field>
+            <field name="expected_revenue">15000</field>
+            <field name="description">Demande de devis pour emballage carton personnalisé avec logo. Quantité estimée : 5000 unités.</field>
+            <field name="stage_id" ref="jil_crm_stage_new"/>
+        </record>
+
+        <record id="jil_crm_lead_demo_2" model="jil.crm.lead">
+            <field name="name">Projet packaging premium</field>
+            <field name="partner_name">Premium Goods SARL</field>
+            <field name="email_from">info@premiumgoods.ma</field>
+            <field name="phone">+212 6 61 98 76 54</field>
+            <field name="type">opportunity</field>
+            <field name="priority">3</field>
+            <field name="expected_revenue">45000</field>
+            <field name="probability">50</field>
+            <field name="description">Projet d'emballage premium pour gamme de cosmétiques. Nécessite impression couleur et finition vernis.</field>
+            <field name="stage_id" ref="jil_crm_stage_proposal"/>
+        </record>
+
+        <record id="jil_crm_lead_demo_3" model="jil.crm.lead">
+            <field name="name">Renouvellement contrat annuel</field>
+            <field name="partner_name">Distribution Modern SA</field>
+            <field name="email_from">achats@distributionmodern.ma</field>
+            <field name="phone">+212 5 29 45 67 89</field>
+            <field name="type">opportunity</field>
+            <field name="priority">2</field>
+            <field name="expected_revenue">120000</field>
+            <field name="probability">90</field>
+            <field name="description">Renouvellement du contrat annuel pour la fourniture de sacs et emballages papier.</field>
+            <field name="stage_id" ref="jil_crm_stage_negotiation"/>
+        </record>
+    </data>
+</odoo>

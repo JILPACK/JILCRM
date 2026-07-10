@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_lead_assignment_rule_list_view" model="ir.ui.view">
+        <field name="name">jil.lead.assignment.rule.list</field>
+        <field name="model">jil.lead.assignment.rule</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list editable="top" multi_edit="1">
+                <field name="name"/>
+                <field name="priority"/>
+                <field name="assignment_method"/>
+                <field name="team_id"/>
+                <field name="active"/>
+                <field name="assignment_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_lead_assignment_rule_form_view" model="ir.ui.view">
+        <field name="name">jil.lead.assignment.rule.form</field>
+        <field name="model">jil.lead.assignment.rule</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="priority"/>
+                            <field name="active"/>
+                            <field name="assignment_method"/>
+                            <field name="team_id"/>
+                            <field name="auto_assign"/>
+                        </group>
+                        <group>
+                            <field name="min_score"/>
+                            <field name="max_score"/>
+                            <field name="max_leads_per_user"/>
+                            <field name="country_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <separator string="Assignable Users"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_lead_assignment_rule_action" model="ir.actions.act_window">
+        <field name="name">Assignment Rules</field>
+        <field name="res_model">jil.lead.assignment.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

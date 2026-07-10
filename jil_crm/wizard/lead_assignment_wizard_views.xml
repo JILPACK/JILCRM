@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_lead_assignment_wizard_view" model="ir.ui.view">
+        <field name="name">jil.lead.assignment.wizard.form</field>
+        <field name="model">jil.lead.assignment.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="user_id" required="1"/>
+                    <field name="team_id"/>
+                </group>
+                <footer>
+                    <button name="action_assign" string="Assign" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_lead_assignment_wizard_action" model="ir.actions.act_window">
+        <field name="name">Assign Leads</field>
+        <field name="res_model">jil.lead.assignment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_lead_ids': active_ids}</field>
+    </record>
+</odoo>

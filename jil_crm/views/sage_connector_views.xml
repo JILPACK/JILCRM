@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Connector Form View -->
+    <record id="sage_connector_form_view" model="ir.ui.view">
+        <field name="name">sage.connector.form</field>
+        <field name="model">sage.connector</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Sage 100 Connector">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object"
+                            class="btn-primary" confirm="Test connection to Sage 100?"/>
+                    <button name="action_authenticate" string="Authenticate" type="object"
+                            invisible="auth_type != 'oauth2'"/>
+                    <button name="action_sync_all" string="Sync All" type="object"
+                            class="btn-success" confirm="Start full synchronization?"/>
+                    <button name="action_retry_failed" string="Retry Failed" type="object"
+                            invisible="retry_count == 0"/>
+                    <button name="action_clear_retries" string="Clear Retries" type="object"
+                            invisible="retry_count == 0"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                            <field name="sage_version"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Connection">
+                            <field name="base_url" widget="url"/>
+                            <field name="auth_type"/>
+                            <field name="username" invisible="auth_type not in ('basic', 'windows')" required="auth_type in ('basic', 'windows')"/>
+                            <field name="password" password="True" invisible="auth_type not in ('basic', 'windows')"/>
+                            <field name="api_key" password="True" invisible="auth_type != 'api_key'"/>
+                            <field name="client_id" invisible="auth_type != 'oauth2'"/>
+                            <field name="client_secret" password="True" invisible="auth_type != 'oauth2'"/>
+                            <field name="token_url" invisible="auth_type != 'oauth2'"/>
+                        </group>
+                        <group string="Sync Configuration">
+                            <field name="sync_direction"/>
+                            <field name="auto_sync"/>
+                            <field name="sync_interval" invisible="not auto_sync"/>
+                            <field name="sync_models" widget="many2many_tags"/>
+                        </group>
+                        <group string="Status">
+                            <field name="connection_status" widget="badge" decoration-success="connection_status == 'ok'"
+                                   decoration-danger="connection_status == 'error'" decoration-warning="connection_status == 'untested'"/>
+                            <field name="last_sync"/>
+                            <field name="last_sync_status" widget="badge" decoration-success="last_sync_status == 'success'"
+                                   decoration-warning="last_sync_status == 'partial'" decoration-danger="last_sync_status == 'failed'"/>
+                            <field name="last_sync_message"/>
+                            <field name="sync_count"/>
+                            <field name="error_count"/>
+                            <field name="retry_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Field Mappings">
+                            <field name="mapping_ids"/>
+                        </page>
+                        <page string="Sync Log">
+                            <field name="sync_log_ids"/>
+                        </page>
+                        <page string="Retry Queue">
+                            <field name="retry_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Connector Tree View -->
+    <record id="sage_connector_tree_view" model="ir.ui.view">
+        <field name="name">sage.connector.tree</field>
+        <field name="model">sage.connector</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="sage_version"/>
+                <field name="connection_status" widget="badge" decoration-success="connection_status == 'ok'"
+                       decoration-danger="connection_status == 'error'" decoration-warning="connection_status == 'untested'"/>
+                <field name="last_sync"/>
+                <field name="last_sync_status" widget="badge"/>
+                <field name="auto_sync"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Connector Search View -->
+    <record id="sage_connector_search_view" model="ir.ui.view">
+        <field name="name">sage.connector.search</field>
+        <field name="model">sage.connector</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sage_version"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="error" string="Has Errors" domain="[('error_count', '>', 0)]"/>
+                <separator/>
+                <filter name="version_100" string="Sage 100" domain="[('sage_version', '=', '100')]"/>
+                <filter name="version_200" string="Sage 200" domain="[('sage_version', '=', '200')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_version" string="Version" context="{'group_by': 'sage_version'}"/>
+                    <filter name="group_status" string="Status" context="{'group_by': 'connection_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Sync Log Tree View -->
+    <record id="sage_connector_sync_tree_view" model="ir.ui.view">
+        <field name="name">sage.connector.sync.tree</field>
+        <field name="model">sage.connector.sync</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date"/>
+                <field name="connector_id"/>
+                <field name="model"/>
+                <field name="direction"/>
+                <field name="status" widget="badge"/>
+                <field name="records_imported"/>
+                <field name="records_failed"/>
+                <field name="duration"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Sync Log Form View -->
+    <record id="sage_connector_sync_form_view" model="ir.ui.view">
+        <field name="name">sage.connector.sync.form</field>
+        <field name="model">sage.connector.sync</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="connector_id"/>
+                            <field name="model"/>
+                            <field name="direction"/>
+                            <field name="status" widget="badge"/>
+                        </group>
+                        <group>
+                            <field name="records_imported"/>
+                            <field name="records_failed"/>
+                            <field name="started_at"/>
+                            <field name="finished_at"/>
+                            <field name="duration"/>
+                        </group>
+                    </group>
+                    <field name="error_message" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Mapping Tree View -->
+    <record id="sage_connector_mapping_tree_view" model="ir.ui.view">
+        <field name="name">sage.connector.mapping.tree</field>
+        <field name="model">sage.connector.mapping</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="connector_id"/>
+                <field name="name"/>
+                <field name="sage_model"/>
+                <field name="odoo_model"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Mapping Views -->
+    <record id="sage_connector_mapping_form_view" model="ir.ui.view">
+        <field name="name">sage.connector.mapping.form</field>
+        <field name="model">sage.connector.mapping</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="connector_id"/>
+                        <field name="name"/>
+                        <field name="sage_model"/>
+                        <field name="odoo_model"/>
+                        <field name="active"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="sage_field"/>
+                            <field name="odoo_field"/>
+                            <field name="transformation"/>
+                                    <field name="default_value"
+                                           invisible="transformation != 'default'"/>
+                                    <field name="expression" colspan="2"
+                                           invisible="transformation != 'expression'"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Retry Tree View -->
+    <record id="sage_connector_retry_tree_view" model="ir.ui.view">
+        <field name="name">sage.connector.retry.tree</field>
+        <field name="model">sage.connector.retry</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date"/>
+                <field name="connector_id"/>
+                <field name="model"/>
+                <field name="sage_id"/>
+                <field name="retry_count"/>
+                <field name="last_error"/>
+                <field name="next_attempt"/>
+                <button name="action_retry_now" string="Retry Now" type="object"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_sage_connector" model="ir.actions.act_window">
+        <field name="name">Sage 100 Connectors</field>
+        <field name="res_model">sage.connector</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Configure Sage 100 ERP connections here.</p>
+            <p>Add a connector, set the base URL and credentials, then test the connection.</p>
+            <p>Use <b>Sync All</b> to pull/push data from/to Sage 100.</p>
+        </field>
+    </record>
+
+    <record id="action_sage_connector_sync" model="ir.actions.act_window">
+        <field name="name">Sage Sync Logs</field>
+        <field name="res_model">sage.connector.sync</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_sage_connector_retry" model="ir.actions.act_window">
+        <field name="name">Sage Retry Queue</field>
+        <field name="res_model">sage.connector.retry</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_sage_connector_root" name="Sage 100 Connector"
+              parent="jil_crm_menu_root" sequence="90"/>
+
+    <menuitem id="menu_sage_connector_config" name="Connectors"
+              parent="menu_sage_connector_root" action="action_sage_connector" sequence="10"/>
+
+    <menuitem id="menu_sage_connector_sync_log" name="Sync Logs"
+              parent="menu_sage_connector_root" action="action_sage_connector_sync" sequence="20"/>
+
+    <menuitem id="menu_sage_connector_retry" name="Retry Queue"
+              parent="menu_sage_connector_root" action="action_sage_connector_retry" sequence="30"/>
+</odoo>

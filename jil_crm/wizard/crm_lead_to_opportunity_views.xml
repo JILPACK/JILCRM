@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_crm_lead_to_opportunity_view" model="ir.ui.view">
+        <field name="name">jil.crm.lead.to.opportunity.form</field>
+        <field name="model">jil.crm.lead.to.opportunity</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="expected_revenue"/>
+                    <field name="probability" widget="progressbar"/>
+                    <field name="team_id"/>
+                    <field name="user_id"/>
+                </group>
+                <footer>
+                    <button name="action_convert" string="Convert" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

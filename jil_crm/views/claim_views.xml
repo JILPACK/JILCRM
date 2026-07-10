@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_claim_list_view" model="ir.ui.view">
+        <field name="name">jil.claim.list</field>
+        <field name="model">jil.claim</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="status == 'ouverte'" decoration-warning="status == 'en_cours'" decoration-success="status == 'resolue'">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="claim_type"/>
+                <field name="status" widget="badge"/>
+                <field name="order_id"/>
+                <field name="user_id" optional="hide"/>
+                <field name="decision_date" optional="hide"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_claim_form_view" model="ir.ui.view">
+        <field name="name">jil.claim.form</field>
+        <field name="model">jil.claim</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Claim">
+                <header>
+                    <field name="status" widget="statusbar" clickable="True"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="client_id"/>
+                            <field name="claim_type"/>
+                            <field name="order_id"/>
+                            <field name="product_name"/>
+                        </group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="decision_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <separator string="Description"/>
+                    <field name="description" nolabel="1"/>
+                    <separator string="Decision" invisible="status not in ('acceptee', 'refusee', 'resolue')"/>
+                    <field name="decision" nolabel="1" invisible="status not in ('acceptee', 'refusee', 'resolue')"/>
+                    <field name="notes" placeholder="Internal notes..."/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_claim_search_view" model="ir.ui.view">
+        <field name="name">jil.claim.search</field>
+        <field name="model">jil.claim</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="description"/>
+                <filter name="filter_open" string="Open" domain="[('status', '!=', 'resolue')]"/>
+                <filter name="filter_resolved" string="Resolved" domain="[('status', '=', 'resolue')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_client" string="Client" context="{'group_by': 'client_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'claim_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="jil_claim_action" model="ir.actions.act_window">
+        <field name="name">Claims</field>
+        <field name="res_model">jil.claim</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="jil_claim_search_view"/>
+    </record>
+
+    <record id="jil_claim_menu" model="ir.actions.act_window">
+        <field name="name">Reclamations</field>
+        <field name="res_model">jil.claim</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="jil_claim_search_view"/>
+        <field name="help" type="html">
+            <p>Manage claims and returns.</p>
+        </field>
+    </record>
+</odoo>

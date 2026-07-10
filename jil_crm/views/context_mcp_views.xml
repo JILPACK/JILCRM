@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_mcp_context_list_view" model="ir.ui.view">
+        <field name="name">jil.mcp.context.list</field>
+        <field name="model">jil.mcp.context</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-success="lifecycle_state in ('customer','active_client')" decoration-warning="lifecycle_state in ('lead','opportunity')">
+                <field name="name"/>
+                <field name="partner_name"/>
+                <field name="partner_email"/>
+                <field name="lifecycle_state" widget="badge"/>
+                <field name="identity_matched"/>
+                <field name="ai_lead_score"/>
+                <field name="lead_count"/>
+                <field name="booking_count"/>
+                <field name="deal_count"/>
+                <field name="sync_status"/>
+                <field name="last_sync"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_mcp_context_form_view" model="ir.ui.view">
+        <field name="name">jil.mcp.context.form</field>
+        <field name="model">jil.mcp.context</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_sync_context" type="object" string="Sync Now" class="btn-primary"/>
+                    <button name="action_update_ai_insights" type="object" string="Refresh AI Insights" class="btn-info"/>
+                    <field name="sync_status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="partner_name"/>
+                            <field name="partner_email"/>
+                            <field name="partner_phone"/>
+                        </group>
+                        <group>
+                            <field name="lifecycle_state" widget="badge"/>
+                            <field name="lifecycle_score"/>
+                            <field name="source_of_truth"/>
+                            <field name="identity_matched"/>
+                            <field name="identity_confidence" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Relations">
+                            <group>
+                                <field name="lead_count"/>
+                                <field name="booking_count"/>
+                                <field name="project_count"/>
+                                <field name="deal_count"/>
+                                <field name="chat_count"/>
+                                <field name="total_interactions"/>
+                            </group>
+                            <separator string="Linked Leads"/>
+                            <field name="lead_ids" readonly="1"/>
+                            <separator string="Linked Bookings"/>
+                            <field name="booking_ids" readonly="1"/>
+                        </page>
+                        <page string="AI Insights">
+                            <group>
+                                <field name="ai_lead_score"/>
+                                <field name="ai_risk_score"/>
+                                <field name="ai_churn_probability" widget="progressbar"/>
+                                <field name="ai_last_analyzed"/>
+                            </group>
+                            <separator string="Insights"/>
+                            <field name="ai_insights" nolabel="1"/>
+                            <separator string="Recommendation"/>
+                            <field name="ai_recommendation" nolabel="1"/>
+                            <separator string="Next Best Action"/>
+                            <field name="ai_next_best_action" nolabel="1"/>
+                        </page>
+                        <page string="Timeline">
+                            <field name="context_timeline_ids" readonly="1">
+                                <list>
+                                    <field name="timestamp"/>
+                                    <field name="event_type" widget="badge"/>
+                                    <field name="summary"/>
+                                    <field name="source"/>
+                                    <field name="user_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Governance">
+                            <group>
+                                <field name="data_quality_score" widget="progressbar"/>
+                                <field name="validation_status" widget="badge"/>
+                                <field name="validated_by"/>
+                                <field name="validated_date"/>
+                            </group>
+                            <field name="missing_fields" nolabel="1"/>
+                        </page>
+                        <page string="Sync">
+                            <group>
+                                <field name="sync_status" widget="badge"/>
+                                <field name="last_sync"/>
+                                <field name="last_sync_source"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_mcp_context_action" model="ir.actions.act_window">
+        <field name="name">Unified Contexts</field>
+        <field name="res_model">jil.mcp.context</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Process 1: Global JIL PACK -->
+        <record id="jil_bpmn_process_global" model="jil.bpmn.process">
+            <field name="name">Processus Global JIL PACK – Vente, Logistique, Comptabilité</field>
+            <field name="sequence">10</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>Processus Global Intégré JIL PACK</h3>
+                <p>Ce BPMN couvre l'ensemble des processus métiers : Vente, Logistique, Comptabilité, Achats, Transport, Douane, Recouvrement.</p>
+                <p><strong>Pools principaux :</strong> Client, Commercial, Magasin, Facturation, Achats, Gestion Stock, Direction, Flux Physique, Planification, Transport, Transitaire, Incoterms, Documents Logistiques, Latifa Import, JIL Logistic, Suivi Commercial, Clients Compta, Fournisseurs Compta, Trésorerie, Recouvrement, Gestion Commerciale Stock, Automatisations</p>
+            ]]></field>
+        </record>
+
+        <!-- Process 2: Entrepôt Ain Sbaa -->
+        <record id="jil_bpmn_process_warehouse" model="jil.bpmn.process">
+            <field name="name">Processus Entrepôt Ain Sbaa (ADV, Comptabilité)</field>
+            <field name="sequence">20</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>Processus Entrepôt Ain Sbaa</h3>
+                <p>Processus détaillé de l'entrepôt : réception marchandise, contrôle qualité, préparation commandes, expédition, gestion des retours et bon de sortie.</p>
+                <p><strong>Acteurs :</strong> Client/Fournisseur, Transporteur, Banque, Entrepôt Ain Sbaa (Latifa, Ismail, Redouane, Soukaina)</p>
+            ]]></field>
+        </record>
+
+        <!-- Process 3: Global Intégré -->
+        <record id="jil_bpmn_process_global_v2" model="jil.bpmn.process">
+            <field name="name">JIL PACK – Processus Global Intégré (Vente, Logistique, Comptabilité, Recouvrement)</field>
+            <field name="sequence">30</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>Processus Global Intégré v2</h3>
+                <p>Version enrichie du processus global avec gestion des outillages, suivi des incoterms, documents logistiques, et coordination avancée.</p>
+                <p><strong>Pools :</strong> Client, Commercial, Magasin, Logistique &amp; Transport (Planification, Transport, Incoterms, Documents, Latifa Import), Comptabilité &amp; Recouvrement (Facturation, Trésorerie, Recouvrement), Direction, Fournisseur, Gestion Stock, ERP</p>
+            ]]></field>
+        </record>
+
+        <!-- Process 4: Vente Intégré -->
+        <record id="jil_bpmn_process_vente" model="jil.bpmn.process">
+            <field name="name">Processus Vente Intégré : Devis à Facture</field>
+            <field name="sequence">40</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>Processus Vente Intégré – Devis à Facture</h3>
+                <p>Processus complet de la vente : de la demande de devis à la facturation, incluant la gestion des BC, le contrôle stock, la préparation magasin, le contrôle qualité client, les réclamations, et la facturation.</p>
+                <p><strong>Pools :</strong> Client, Commercial, Magasin, Facturation, Achats, Gestion Stock, Direction, ERP</p>
+                <p><strong>Délais clés :</strong> Réclamation 7j, Correction BC 48h, Escalade écart ≥2, Paiement selon compte client</p>
+            ]]></field>
+        </record>
+
+        <!-- Process 5: Logistique & Supply Chain -->
+        <record id="jil_bpmn_process_logistique" model="jil.bpmn.process">
+            <field name="name">Logistique &amp; Supply Chain</field>
+            <field name="sequence">50</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>BPMN 2 – Logistique &amp; Supply Chain</h3>
+                <p>Processus logistique complet : flux physique, planification, transport (maritime, routier, messagerie, coursier), transitaire/douane (Portnet), incoterms, documents logistiques, suivi commercial.</p>
+                <p><strong>Pools :</strong> Flux Physique, Planification Soukaina, Transport, Transitaire Douane, Incoterms, Documents Logistiques, Latifa Import, JIL Logistic, Suivi Commercial</p>
+            ]]></field>
+        </record>
+
+        <!-- Process 6: Comptabilité & Gestion -->
+        <record id="jil_bpmn_process_compta" model="jil.bpmn.process">
+            <field name="name">Comptabilité &amp; Gestion</field>
+            <field name="sequence">60</field>
+            <field name="state">validated</field>
+            <field name="description"><![CDATA[
+                <h3>BPMN 3 – Département Comptabilité &amp; Gestion</h3>
+                <p>Processus comptable et financier : gestion clients (devis, facture, relances, recouvrement), fournisseurs, trésorerie (Portnet, crédit enlèvement, obligation cautionnée), recouvrement (Yassine, Soukaina), gestion commerciale et stock, automatisations comptables.</p>
+                <p><strong>Pools :</strong> Clients, Fournisseurs, Trésorerie, Recouvrement (Yassine/Redouane, Soukaina), Gestion Commerciale Stock, Automatisations</p>
+            ]]></field>
+        </record>
+    </data>
+</odoo>

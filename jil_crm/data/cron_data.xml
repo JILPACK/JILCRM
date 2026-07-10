@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="cron_chatbot_analytics" model="ir.cron">
+            <field name="name">JIL CRM: Compute Chatbot Analytics</field>
+            <field name="model_id" ref="model_jil_chatbot_analytics"/>
+            <field name="state">code</field>
+            <field name="code">model.compute_analytics()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="cron_sage_connector_sync" model="ir.cron">
+            <field name="name">JIL CRM: Sage 100 Scheduled Sync</field>
+            <field name="model_id" ref="model_sage_connector"/>
+            <field name="state">code</field>
+            <field name="code">model.run_scheduled_sync()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <record id="cron_conversion_metrics" model="ir.cron">
+            <field name="name">JIL CRM: Compute Conversion Metrics</field>
+            <field name="model_id" ref="model_jil_crm_conversion_metrics"/>
+            <field name="state">code</field>
+            <field name="code">model.compute_metrics()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

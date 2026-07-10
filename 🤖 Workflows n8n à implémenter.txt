@@ -1,0 +1,22 @@
+🤖 Workflows n8n à implémenter
+Voici les workflows clés qu'on peut brancher directement sur les tables Supabase :
+
+1. Cycle Devis → Commande → Facture → Recouvrement
+[Devis accepté (status=accepte)] → Créer Commande + Items
+[Commande livrée (status=livre)]  → Créer Facture + Due Date (J+60)
+[Facture impayée (status=envoye + due_date dépassée)] → Créer Recovery + Email relance
+2. Alertes Stock Faible
+[Produits avec stock_qty < 10% du min] → Email/canal Slack alerte
+[Produits en rupture (stock_qty <= 0)] → Auto-générer Purchase Order vers fournisseur
+3. Sync WooCommerce → Produits
+[Webhook WooCommerce nouveau produit] → UPSERT dans Supabase products
+[Webhook WooCommerce commande] → Créer Order + Items dans Supabase
+4. Gestion Réclamations
+[Claim status=acceptee] → Créer Transport retour + Mouvement Stock sortie
+[Claim refusee] → Email client notification
+5. Pipeline CRM Automations
+[Opportunity status=gagne] → Créer Devis automatique
+[Opportunity +30 jours sans update + status!=perdu] → Relance email
+6. Connecteur Sage (via sage_config)
+[Sync manuel déclenché] → Pull données Sage → UPSERT dans clients/products/invoices
+Le plus impactant serait de commencer par le #1 (Cycle Ventes) et le #2 (Alertes Stock) — tu veux qu'on les crée dans n8n Cloud ?

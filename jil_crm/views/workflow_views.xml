@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_workflow_automation_list_view" model="ir.ui.view">
+        <field name="name">jil.workflow.automation.list</field>
+        <field name="model">jil.workflow.automation</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="model"/>
+                <field name="trigger_type"/>
+                <field name="action_type"/>
+                <field name="active"/>
+                <field name="run_count"/>
+                <field name="last_run"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_workflow_automation_form_view" model="ir.ui.view">
+        <field name="name">jil.workflow.automation.form</field>
+        <field name="model">jil.workflow.automation</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                            <field name="model"/>
+                        </group>
+                        <group>
+                            <field name="trigger_type"/>
+                            <field name="trigger_field" invisible="trigger_type in ('on_create','cron')"/>
+                            <field name="trigger_operator" invisible="trigger_type in ('on_create','cron')"/>
+                            <field name="trigger_value" invisible="trigger_type in ('on_create','cron')"/>
+                            <field name="cron_interval" invisible="trigger_type != 'cron'"/>
+                        </group>
+                    </group>
+                    <group string="Action" name="action_config">
+                        <field name="action_type"/>
+                        <field name="email_template_id" invisible="action_type != 'email'"/>
+                        <field name="activity_type_id" invisible="action_type != 'create_activity'"/>
+                        <field name="activity_summary" invisible="action_type != 'create_activity'"/>
+                        <field name="update_field_name" invisible="action_type != 'update_field'"/>
+                        <field name="update_field_value" invisible="action_type != 'update_field'"/>
+                        <field name="assign_user_id" invisible="action_type != 'assign_user'"/>
+                        <field name="webhook_url" invisible="action_type != 'webhook'"/>
+                        <field name="condition_domain"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_workflow_automation_action" model="ir.actions.act_window">
+        <field name="name">Workflow Automation</field>
+        <field name="res_model">jil.workflow.automation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

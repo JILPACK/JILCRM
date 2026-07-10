@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_project_tracking_list_view" model="ir.ui.view">
+        <field name="name">jil.project.tracking.list</field>
+        <field name="model">jil.project.tracking</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-success="status == 'completed'" decoration-warning="status == 'in_progress'" decoration-danger="status == 'on_hold'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="status" widget="badge"/>
+                <field name="priority" widget="priority"/>
+                <field name="start_date"/>
+                <field name="deadline"/>
+                <field name="progress" widget="progressbar"/>
+                <field name="task_count"/>
+                <field name="completed_task_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_project_tracking_form_view" model="ir.ui.view">
+        <field name="name">jil.project.tracking.form</field>
+        <field name="model">jil.project.tracking</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="status" widget="statusbar" clickable="1"/>
+                    <button name="action_start" type="object" string="Start" class="btn-primary"
+                            invisible="status != 'not_started'"/>
+                    <button name="action_hold" type="object" string="Put on Hold" class="btn-warning"
+                            invisible="status != 'in_progress'"/>
+                    <button name="action_complete" type="object" string="Complete" class="btn-success"
+                            invisible="status != 'in_progress'"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lead_id"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="team_id"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="deadline"/>
+                            <field name="progress" widget="progressbar"/>
+                        </group>
+                    </group>
+                    <group string="Budget">
+                        <field name="budget"/>
+                        <field name="actual_cost"/>
+                    </group>
+                    <field name="description"/>
+                    <notebook>
+                        <page string="Milestones">
+                            <field name="milestone_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="progress" widget="progressbar"/>
+                                    <field name="assigned_to"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Tasks">
+                            <field name="task_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="assigned_to"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="priority" widget="priority"/>
+                                    <field name="progress" widget="progressbar"/>
+                                    <field name="deadline"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_project_tracking_action" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">jil.project.tracking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

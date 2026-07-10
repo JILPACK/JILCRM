@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_crm_kpi_list_view" model="ir.ui.view">
+        <field name="name">jil.crm.kpi.list</field>
+        <field name="model">jil.crm.kpi</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-success="achievement > 100" decoration-warning="achievement > 50" decoration-danger="achievement &lt; 50">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="kpi_type"/>
+                <field name="target_type"/>
+                <field name="current_value"/>
+                <field name="target_value"/>
+                <field name="achievement" widget="progressbar"/>
+                <field name="trend"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_crm_kpi_form_view" model="ir.ui.view">
+        <field name="name">jil.crm.kpi.form</field>
+        <field name="model">jil.crm.kpi</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="kpi_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="target_value"/>
+                            <field name="target_type"/>
+                            <field name="unit"/>
+                            <field name="current_value" readonly="1"/>
+                            <field name="achievement" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Configuration">
+                        <field name="model_name"/>
+                        <field name="measure_field"/>
+                        <field name="aggregation"/>
+                        <field name="domain"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_crm_kpi_action" model="ir.actions.act_window">
+        <field name="name">KPI Definitions</field>
+        <field name="res_model">jil.crm.kpi</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_lead_capture_form_list_view" model="ir.ui.view">
+        <field name="name">jil.lead.capture.form.list</field>
+        <field name="model">jil.lead.capture.form</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="form_type"/>
+                <field name="form_code"/>
+                <field name="active"/>
+                <field name="lead_count"/>
+                <field name="conversion_rate" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_lead_capture_form_form_view" model="ir.ui.view">
+        <field name="name">jil.lead.capture.form.form</field>
+        <field name="model">jil.lead.capture.form</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="form_type"/>
+                            <field name="form_code"/>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="team_id"/>
+                            <field name="user_id"/>
+                            <field name="stage_id"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Scoring &amp; Assignment">
+                            <field name="scoring_rule_ids"/>
+                            <field name="assignment_rule_id"/>
+                        </page>
+                        <page string="Auto Response">
+                            <field name="auto_reply_template"/>
+                            <field name="confirmation_message" nolabel="1"/>
+                        </page>
+                        <page string="Form Fields">
+                            <field name="fields_json" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_lead_capture_form_action" model="ir.actions.act_window">
+        <field name="name">Capture Forms</field>
+        <field name="res_model">jil.lead.capture.form</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

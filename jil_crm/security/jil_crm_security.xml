@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="jil_crm_rule_lead_salesman" model="ir.rule">
+            <field name="name">Jil CRM Lead: Salesman sees own leads</field>
+            <field name="model_id" ref="model_jil_crm_lead"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+
+        <record id="jil_crm_rule_lead_manager" model="ir.rule">
+            <field name="name">Jil CRM Lead: Manager sees all leads</field>
+            <field name="model_id" ref="model_jil_crm_lead"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        </record>
+
+        <record id="jil_crm_rule_communication_salesman" model="ir.rule">
+            <field name="name">Jil CRM Communication: User sees own communications</field>
+            <field name="model_id" ref="model_jil_crm_communication"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        </record>
+
+        <record id="jil_crm_rule_communication_manager" model="ir.rule">
+            <field name="name">Jil CRM Communication: Manager sees all</field>
+            <field name="model_id" ref="model_jil_crm_communication"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        </record>
+
+        <!-- Multi-company rules -->
+        <record id="jil_crm_rule_claim_company" model="ir.rule">
+            <field name="name">JIL Claim: multi-company</field>
+            <field name="model_id" ref="model_jil_claim"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="jil_crm_rule_transport_company" model="ir.rule">
+            <field name="name">JIL Transport: multi-company</field>
+            <field name="model_id" ref="model_jil_transport"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="jil_crm_rule_recovery_company" model="ir.rule">
+            <field name="name">JIL Recovery: multi-company</field>
+            <field name="model_id" ref="model_jil_recovery"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="jil_crm_rule_support_company" model="ir.rule">
+            <field name="name">JIL Support Ticket: multi-company</field>
+            <field name="model_id" ref="model_jil_support_ticket"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="jil_crm_rule_lead_company" model="ir.rule">
+            <field name="name">JIL Lead: multi-company</field>
+            <field name="model_id" ref="model_jil_crm_lead"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+        </record>
+    </data>
+</odoo>

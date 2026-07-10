@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_mcp_governance_list_view" model="ir.ui.view">
+        <field name="name">jil.mcp.governance.list</field>
+        <field name="model">jil.mcp.governance</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="rule_type"/>
+                <field name="severity" widget="badge"/>
+                <field name="field_name"/>
+                <field name="active"/>
+                <field name="auto_fix"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_mcp_governance_form_view" model="ir.ui.view">
+        <field name="name">jil.mcp.governance.form</field>
+        <field name="model">jil.mcp.governance</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="active"/>
+                        <field name="sequence"/>
+                        <field name="rule_type"/>
+                        <field name="severity"/>
+                    </group>
+                    <group string="Validation Config">
+                        <field name="field_name"/>
+                        <field name="validation_regex"/>
+                        <field name="validation_message"/>
+                        <field name="auto_fix"/>
+                        <field name="auto_fix_value" invisible="not auto_fix"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_mcp_governance_action" model="ir.actions.act_window">
+        <field name="name">Governance Rules</field>
+        <field name="res_model">jil.mcp.governance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="jil_mcp_audit_log_list_view" model="ir.ui.view">
+        <field name="name">jil.mcp.audit.log.list</field>
+        <field name="model">jil.mcp.audit.log</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="context_id"/>
+                <field name="partner_id"/>
+                <field name="action" widget="badge"/>
+                <field name="field_changed"/>
+                <field name="user_id"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_mcp_audit_log_form_view" model="ir.ui.view">
+        <field name="name">jil.mcp.audit.log.form</field>
+        <field name="model">jil.mcp.audit.log</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="context_id"/>
+                        <field name="partner_id"/>
+                        <field name="action"/>
+                        <field name="user_id"/>
+                        <field name="create_date"/>
+                    </group>
+                    <group>
+                        <field name="field_changed"/>
+                        <field name="old_value"/>
+                        <field name="new_value"/>
+                    </group>
+                    <field name="details"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_mcp_audit_log_action" model="ir.actions.act_window">
+        <field name="name">Audit Log</field>
+        <field name="res_model">jil.mcp.audit.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_chatbot_flow_list_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.flow.list</field>
+        <field name="model">jil.chatbot.flow</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="flow_type"/>
+                <field name="active"/>
+                <field name="step_count"/>
+                <field name="session_count"/>
+                <field name="completion_rate" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_flow_form_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.flow.form</field>
+        <field name="model">jil.chatbot.flow</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                        <field name="flow_type"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Steps">
+                            <field name="step_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="step_type"/>
+                                    <field name="message_text"/>
+                                    <field name="required"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_flow_action" model="ir.actions.act_window">
+        <field name="name">Chatbot Flows</field>
+        <field name="res_model">jil.chatbot.flow</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="jil_chatbot_intent_list_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.intent.list</field>
+        <field name="model">jil.chatbot.intent</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="active"/>
+                <field name="confidence_threshold" widget="progressbar"/>
+                <field name="match_count"/>
+                <field name="use_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_intent_form_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.intent.form</field>
+        <field name="model">jil.chatbot.intent</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="active"/>
+                        <field name="confidence_threshold"/>
+                        <field name="description"/>
+                        <field name="flow_id"/>
+                    </group>
+                    <group string="Training Phrases">
+                        <field name="training_phrases" nolabel="1"/>
+                    </group>
+                    <group string="Default Response">
+                        <field name="response_template" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_intent_action" model="ir.actions.act_window">
+        <field name="name">Intents</field>
+        <field name="res_model">jil.chatbot.intent</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="jil_chatbot_session_list_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.session.list</field>
+        <field name="model">jil.chatbot.session</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'completed'" decoration-muted="state == 'abandoned'">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="flow_id"/>
+                <field name="state" widget="badge"/>
+                <field name="message_count"/>
+                <field name="duration_seconds"/>
+                <field name="lead_captured"/>
+                <field name="booking_made"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_session_form_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.session.form</field>
+        <field name="model">jil.chatbot.session</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_end_session" type="object" string="End Session"
+                            invisible="state != 'active'"/>
+                    <button name="action_abandon_session" type="object" string="Mark Abandoned"
+                            invisible="state != 'active'"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="lead_id"/>
+                            <field name="flow_id"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                            <field name="message_count"/>
+                            <field name="duration_seconds"/>
+                            <field name="satisfaction_score"/>
+                        </group>
+                    </group>
+                    <group string="Source">
+                        <field name="source_url"/>
+                        <field name="source_page"/>
+                    </group>
+                    <notebook>
+                        <page string="Messages">
+                            <field name="message_ids" readonly="1">
+                                <list>
+                                    <field name="direction"/>
+                                    <field name="message_type"/>
+                                    <field name="content"/>
+                                    <field name="intent_id"/>
+                                    <field name="confidence" widget="progressbar"/>
+                                    <field name="response_time_ms"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Collected Data">
+                            <field name="collected_data" nolabel="1"/>
+                            <field name="context_data" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_session_action" model="ir.actions.act_window">
+        <field name="name">Chat Sessions</field>
+        <field name="res_model">jil.chatbot.session</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

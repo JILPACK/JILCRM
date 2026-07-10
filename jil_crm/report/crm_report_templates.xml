@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_lead">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            <span t-field="doc.name"/>
+                        </h2>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Customer</strong></td>
+                                <td>
+                                    <span t-field="doc.partner_name"/>
+                                    <span t-if="doc.partner_id" t-field="doc.partner_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Type</strong></td>
+                                <td><span t-field="doc.type"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Stage</strong></td>
+                                <td><span t-field="doc.stage_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Priority</strong></td>
+                                <td><span t-field="doc.priority"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Salesperson</strong></td>
+                                <td><span t-field="doc.user_id"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Expected Revenue</strong></td>
+                                <td><span t-field="doc.expected_revenue" t-options='{"widget": "monetary"}'/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Probability</strong></td>
+                                <td><span t-field="doc.probability"/>%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Expected Closing</strong></td>
+                                <td><span t-field="doc.date_deadline"/></td>
+                            </tr>
+                        </table>
+                        <div t-if="doc.description">
+                            <strong>Notes:</strong>
+                            <p t-field="doc.description"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_chatbot_intent_list_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.intent.list</field>
+        <field name="model">jil.chatbot.intent</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="active"/>
+                <field name="confidence_threshold" widget="progressbar"/>
+                <field name="match_count"/>
+                <field name="use_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_intent_form_view" model="ir.ui.view">
+        <field name="name">jil.chatbot.intent.form</field>
+        <field name="model">jil.chatbot.intent</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category"/>
+                        <field name="active"/>
+                        <field name="confidence_threshold"/>
+                        <field name="description"/>
+                        <field name="flow_id"/>
+                    </group>
+                    <group string="Training Phrases">
+                        <field name="training_phrases" nolabel="1"/>
+                    </group>
+                    <group string="Default Response">
+                        <field name="response_template" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_chatbot_intent_action" model="ir.actions.act_window">
+        <field name="name">Intents</field>
+        <field name="res_model">jil.chatbot.intent</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

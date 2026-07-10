@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_crm_bulk_action_view" model="ir.ui.view">
+        <field name="name">jil.crm.bulk.action.form</field>
+        <field name="model">jil.crm.bulk.action</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="action_type"/>
+                    <field name="user_id" invisible="action_type != 'assign'"/>
+                    <field name="team_id" invisible="action_type != 'assign'"/>
+                    <field name="stage_id" invisible="action_type != 'stage'"/>
+                    <field name="tag_ids" widget="many2many_tags" invisible="action_type != 'tag'"/>
+                </group>
+                <footer>
+                    <button name="action_execute" string="Execute" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_crm_bulk_action_action" model="ir.actions.act_window">
+        <field name="name">Bulk Action</field>
+        <field name="res_model">jil.crm.bulk.action</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_lead_ids': active_ids}</field>
+    </record>
+</odoo>

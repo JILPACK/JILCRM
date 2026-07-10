@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="jil_crm_dashboard_list_view" model="ir.ui.view">
+        <field name="name">jil.crm.dashboard.list</field>
+        <field name="model">jil.crm.dashboard</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="dashboard_type"/>
+                <field name="user_id"/>
+                <field name="shared"/>
+                <field name="widget_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="jil_crm_dashboard_form_view" model="ir.ui.view">
+        <field name="name">jil.crm.dashboard.form</field>
+        <field name="model">jil.crm.dashboard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="dashboard_type"/>
+                        <field name="user_id"/>
+                        <field name="shared"/>
+                    </group>
+                    <separator string="Widgets"/>
+                    <field name="widget_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="widget_type"/>
+                            <field name="size"/>
+                            <field name="aggregation"/>
+                            <field name="color" widget="color"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="jil_crm_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Dashboards</field>
+        <field name="res_model">jil.crm.dashboard</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
